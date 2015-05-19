@@ -1,9 +1,9 @@
 # Practical Machine Learning Project
 Michael Goodman  
-Sunday, May 17, 2015  
+Tuesday, May 19, 2015  
 
 # Executive Summary
-### GitHub Repo: <http://rmarkdown.rstudio.com>
+#### GitHub Repo: <https://github.com/MGoodman10/Practical-Machine-Learning>
 
 ###Background  
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible 
@@ -13,11 +13,11 @@ movement - a group of enthusiasts who take measurements about themselves
 regularly to improve their health, to find patterns in their behavior, or 
 because they are tech geeks. One thing that people regularly do is quantify 
 how much of a particular activity they do, but they rarely quantify how well 
-they do it. In this project, your goal will be to use data from accelerometers 
-on the belt, forearm, arm, and dumbbell of 6 participants. They were asked 
-to perform barbell lifts correctly and incorrectly in 5 different ways. 
+they do it. The goal of this project is to use data from accelerometers 
+on the belt, forearm, arm, and dumbbell of 6 participants as they 
+perform barbell lifts correctly and incorrectly 5 different ways. 
 
-Six young health participants were asked to perform one set of 10 repetitions 
+Six young healthy participants were asked to perform one set of 10 repetitions 
 of the Unilateral Dumbbell Biceps Curl in five different fashions:  
 * Class A - exactly according to the specification  
 * Class B - throwing the elbows to the front  
@@ -59,11 +59,11 @@ use the other variables to predict with. This report describes:
 * use of cross validation  
 * an estimate of expected out of sample error  
 
-# Getting and Cleaning the Data
+# Getting and cleaning the Data
 The first step is to download the data, load it into R and prepare it for 
 the modeling process.  
 
-### Load the functions and static variabless
+### Load the functions and static variables
 All functions are loaded and static variables are assigned.  Also in this 
 section, the seed is set so the pseudo-random number generator operates in a 
 consistent way for repeat-ability.  
