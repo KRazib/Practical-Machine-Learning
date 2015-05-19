@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Practical-machine-learning by MGoodman10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Practical-machine-learning</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/MGoodman10/Practical-Machine-Learning" class="btn">View on GitHub</a>
+      <a href="https://github.com/MGoodman10/Practical-Machine-Learning/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/MGoodman10/Practical-Machine-Learning/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="practical-machine-learning-project" class="anchor" href="#practical-machine-learning-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practical Machine Learning Project</h1>
+
+<p>Michael Goodman<br>
+Tuesday, May 19, 2015  </p>
+
+<h1>
+<a id="executive-summary" class="anchor" href="#executive-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Executive Summary</h1>
+
+<h4>
+<a id="github-repo-httpsgithubcommgoodman10practical-machine-learning" class="anchor" href="#github-repo-httpsgithubcommgoodman10practical-machine-learning" aria-hidden="true"><span class="octicon octicon-link"></span></a>GitHub Repo: <a href="https://github.com/MGoodman10/Practical-Machine-Learning">https://github.com/MGoodman10/Practical-Machine-Learning</a>
+</h4>
+
+<h3>
+<a id="background" class="anchor" href="#background" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background</h3>
+
+<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible 
+to collect a large amount of data about personal activity relatively 
+inexpensively. These type of devices are part of the quantified self 
+movement - a group of enthusiasts who take measurements about themselves 
+regularly to improve their health, to find patterns in their behavior, or 
+because they are tech geeks. One thing that people regularly do is quantify 
+how much of a particular activity they do, but they rarely quantify how well 
+they do it. The goal of this project is to use data from accelerometers 
+on the belt, forearm, arm, and dumbbell of 6 participants as they 
+perform barbell lifts correctly and incorrectly 5 different ways. </p>
+
+<p>Six young healthy participants were asked to perform one set of 10 repetitions 
+of the Unilateral Dumbbell Biceps Curl in five different fashions:  </p>
+
+<ul>
+<li>Class A - exactly according to the specification<br>
+</li>
+<li>Class B - throwing the elbows to the front<br>
+</li>
+<li>Class C - lifting the dumbbell only halfway<br>
+</li>
+<li>Class D - lowering the dumbbell only halfway<br>
+</li>
+<li>Class E - throwing the hips to the front<br>
+</li>
+</ul>
+
+<p>Class A corresponds to the specified execution of the exercise, while the other 
+4 classes correspond to common mistakes. Participants were supervised by 
+an experienced weight lifter to make sure the execution complied to the 
+manner they were supposed to simulate. The exercises were performed by six 
+male participants aged between 20-28 years, with little weight lifting 
+experience. Researchers made sure that all participants could easily simulate 
+the mistakes in a safe and controlled manner by using a relatively light 
+dumbbell (1.25kg).</p>
+
+<h3>
+<a id="reference" class="anchor" href="#reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference</h3>
+
+<p>Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. Qualitative 
+Activity Recognition of Weight Lifting Exercises. Proceedings of 4th 
+International Conference in Cooperation with SIGCHI (Augmented Human '13).
+Stuttgart, Germany: ACM SIGCHI, 2013.</p>
+
+<h3>
+<a id="data" class="anchor" href="#data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data</h3>
+
+<p>The training data for this project are available at: </p>
+
+<p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a></p>
+
+<p>The test data are available at: </p>
+
+<p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a></p>
+
+<h3>
+<a id="goal" class="anchor" href="#goal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goal</h3>
+
+<p>The goal of this project is to predict the manner in which subjects did 
+the exercise. This is the "classe" variable in the training set. The model will
+use the other variables to predict with. This report describes:  </p>
+
+<ul>
+<li>how the model is built<br>
+</li>
+<li>use of cross validation<br>
+</li>
+<li>an estimate of expected out of sample error<br>
+</li>
+</ul>
+
+<h1>
+<a id="getting-and-cleaning-the-data" class="anchor" href="#getting-and-cleaning-the-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting and cleaning the Data</h1>
+
+<p>The first step is to download the data, load it into R and prepare it for 
+the modeling process.  </p>
+
+<h3>
+<a id="load-the-functions-and-static-variables" class="anchor" href="#load-the-functions-and-static-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load the functions and static variables</h3>
+
+<p>All functions are loaded and static variables are assigned.  Also in this 
+section, the seed is set so the pseudo-random number generator operates in a 
+consistent way for repeat-ability.  </p>
+
+<div class="highlight highlight-r"><pre>library(<span class="pl-smi">caret</span>)
+library(<span class="pl-smi">rpart</span>)
+library(<span class="pl-smi">rpart.plot</span>)
+library(<span class="pl-smi">RColorBrewer</span>)
+library(<span class="pl-smi">rattle</span>)
+library(<span class="pl-smi">e1071</span>)
+library(<span class="pl-smi">randomForest</span>)
+set.seed(<span class="pl-c1">1</span>)
+
+<span class="pl-smi">train.url</span> <span class="pl-k">&lt;-</span>
+        <span class="pl-s"><span class="pl-pds">"</span>https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv<span class="pl-pds">"</span></span>
+<span class="pl-smi">test.url</span> <span class="pl-k">&lt;-</span> 
+        <span class="pl-s"><span class="pl-pds">"</span>https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv<span class="pl-pds">"</span></span>
+
+<span class="pl-smi">path</span> <span class="pl-k">&lt;-</span> paste(getwd(),<span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>machine<span class="pl-pds">"</span></span>, <span class="pl-v">sep</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)
+<span class="pl-smi">train.file</span> <span class="pl-k">&lt;-</span> file.path(<span class="pl-smi">path</span>, <span class="pl-s"><span class="pl-pds">"</span>machine-train-data.csv<span class="pl-pds">"</span></span>)
+<span class="pl-smi">test.file</span> <span class="pl-k">&lt;-</span> file.path(<span class="pl-smi">path</span>, <span class="pl-s"><span class="pl-pds">"</span>machine-test-data.csv<span class="pl-pds">"</span></span>)</pre></div>
+
+<h3>
+<a id="dowload-the-files-if-necessary-and-read-them-into-memory" class="anchor" href="#dowload-the-files-if-necessary-and-read-them-into-memory" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dowload the files (if necessary) and read them into memory</h3>
+
+<p>The files are read into memory.  Various indicators of missing data (i.e., 
+"NA", "#DIV/0!" and "") are all set to NA so they can be processed.  </p>
+
+<div class="highlight highlight-r"><pre><span class="pl-k">if</span> (<span class="pl-k">!</span>file.exists(<span class="pl-smi">train.file</span>)) {
+        download.file(<span class="pl-smi">train.url</span>, <span class="pl-v">destfile</span><span class="pl-k">=</span><span class="pl-smi">train.file</span>)
+}
+<span class="pl-k">if</span> (<span class="pl-k">!</span>file.exists(<span class="pl-smi">test.file</span>)) {
+        download.file(<span class="pl-smi">test.url</span>, <span class="pl-v">destfile</span><span class="pl-k">=</span><span class="pl-smi">test.file</span>)
+}
+
+<span class="pl-smi">train.data.raw</span> <span class="pl-k">&lt;-</span> read.csv(<span class="pl-smi">train.file</span>, <span class="pl-v">na.strings</span><span class="pl-k">=</span>c(<span class="pl-s"><span class="pl-pds">"</span>NA<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>#DIV/0!<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>))
+<span class="pl-smi">test.data.raw</span> <span class="pl-k">&lt;-</span> read.csv(<span class="pl-smi">test.file</span>, <span class="pl-v">na.strings</span><span class="pl-k">=</span>c(<span class="pl-s"><span class="pl-pds">"</span>NA<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>#DIV/0!<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>))</pre></div>
+
+<h3>
+<a id="remove-unecessary-colums" class="anchor" href="#remove-unecessary-colums" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remove unecessary colums</h3>
+
+<p>Columns that are not deeded for the model and columns that contain NAs 
+are eliminated.  </p>
+
+<div class="highlight highlight-r"><pre><span class="pl-c"># Drop the first 7 columns as they're unnecessary for predicting.</span>
+<span class="pl-smi">train.data.clean1</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">train.data.raw</span>[,<span class="pl-c1">8</span><span class="pl-k">:</span>length(colnames(<span class="pl-smi">train.data.raw</span>))]
+<span class="pl-smi">test.data.clean1</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">test.data.raw</span>[,<span class="pl-c1">8</span><span class="pl-k">:</span>length(colnames(<span class="pl-smi">test.data.raw</span>))]
+
+<span class="pl-c"># Drop colums with NAs</span>
+<span class="pl-smi">train.data.clean1</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">train.data.clean1</span>[, colSums(is.na(<span class="pl-smi">train.data.clean1</span>)) <span class="pl-k">==</span> <span class="pl-c1">0</span>] 
+<span class="pl-smi">test.data.clean1</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">test.data.clean1</span>[, colSums(is.na(<span class="pl-smi">test.data.clean1</span>)) <span class="pl-k">==</span> <span class="pl-c1">0</span>] 
+
+<span class="pl-c"># Check for near zero variance predictors and drop them if necessary</span>
+<span class="pl-smi">nzv</span> <span class="pl-k">&lt;-</span> nearZeroVar(<span class="pl-smi">train.data.clean1</span>,<span class="pl-v">saveMetrics</span><span class="pl-k">=</span><span class="pl-c1">TRUE</span>)
+<span class="pl-smi">zero.var.ind</span> <span class="pl-k">&lt;-</span> sum(<span class="pl-smi">nzv</span><span class="pl-k">$</span><span class="pl-smi">nzv</span>)
+
+<span class="pl-k">if</span> ((<span class="pl-smi">zero.var.ind</span><span class="pl-k">&gt;</span><span class="pl-c1">0</span>)) {
+        <span class="pl-smi">train.data.clean1</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">train.data.clean1</span>[,<span class="pl-smi">nzv</span><span class="pl-k">$</span><span class="pl-smi">nzv</span><span class="pl-k">==</span><span class="pl-c1">FALSE</span>]
+}</pre></div>
+
+<h3>
+<a id="slice-the-data-for-cross-validation" class="anchor" href="#slice-the-data-for-cross-validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Slice the data for cross validation</h3>
+
+<p>The training data is divided into two sets.  This first is a training set with 70% of the data which is used to train the model.  The second is a validation 
+set used to assess model performance.  </p>
+
+<div class="highlight highlight-r"><pre><span class="pl-k">in</span><span class="pl-smi">.training</span> <span class="pl-k">&lt;-</span> createDataPartition(<span class="pl-smi">train.data.clean1</span><span class="pl-k">$</span><span class="pl-smi">classe</span>, <span class="pl-v">p</span><span class="pl-k">=</span><span class="pl-c1">0.70</span>, <span class="pl-v">list</span><span class="pl-k">=</span><span class="pl-c1">F</span>)
+<span class="pl-smi">train.data.final</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">train.data.clean1</span>[<span class="pl-k">in</span><span class="pl-smi">.training</span>, ]
+<span class="pl-smi">validate.data.final</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">train.data.clean1</span>[<span class="pl-k">-</span><span class="pl-k">in</span><span class="pl-smi">.training</span>, ]</pre></div>
+
+<h1>
+<a id="model-development" class="anchor" href="#model-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Development</h1>
+
+<h3>
+<a id="train-the-model" class="anchor" href="#train-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Train the model</h3>
+
+<p>The training data-set is used to fit a Random Forest model because it 
+automatically selects important variables and is robust to correlated 
+covariates &amp; outliers in general. 5-fold cross validation is used when 
+applying the algorithm. A Random Forest algorithm is a way of averaging 
+multiple deep decision trees, trained on different parts of the same data-set,
+with the goal of reducing the variance. This typically produces better 
+performance at the expense of bias and interpret-ability. The Cross-validation 
+technique assesses how the results of a statistical analysis will generalize 
+to an independent data set. In 5-fold cross-validation, the original sample 
+is randomly partitioned into 5 equal sized sub-samples. a single sample 
+is retained for validation and the other sub-samples are used as training 
+data. The process is repeated 5 times and the results from the folds are 
+averaged.</p>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">control.parms</span> <span class="pl-k">&lt;-</span> trainControl(<span class="pl-v">method</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>cv<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>)
+<span class="pl-smi">rf.model</span> <span class="pl-k">&lt;-</span> train(<span class="pl-smi">classe</span> <span class="pl-k">~</span> ., <span class="pl-v">data</span><span class="pl-k">=</span><span class="pl-smi">train.data.final</span>, <span class="pl-v">method</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>rf<span class="pl-pds">"</span></span>,
+                 <span class="pl-v">trControl</span><span class="pl-k">=</span><span class="pl-smi">control.parms</span>, <span class="pl-v">ntree</span><span class="pl-k">=</span><span class="pl-c1">251</span>)
+<span class="pl-smi">rf.model</span></pre></div>
+
+<pre><code>## Random Forest 
+## 
+## 13737 samples
+##    52 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## 
+## Summary of sample sizes: 10990, 10990, 10989, 10990, 10989 
+## 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa      Accuracy SD  Kappa SD   
+##    2    0.9905366  0.9880275  0.001543981  0.001955033
+##   27    0.9906094  0.9881210  0.001295651  0.001638512
+##   52    0.9828201  0.9782677  0.004693225  0.005936194
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 27.
+</code></pre>
+
+<h3>
+<a id="estimate-performance" class="anchor" href="#estimate-performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Estimate performance</h3>
+
+<p>The model fit using the training data is tested against the validation data.
+Predicted values for the validation data are then compared to the actual 
+values. This allows forecasting the accuracy and overall out-of-sample error,
+which indicate how well the model will perform with other data.  </p>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">rf.predict</span> <span class="pl-k">&lt;-</span> predict(<span class="pl-smi">rf.model</span>, <span class="pl-smi">validate.data.final</span>)
+confusionMatrix(<span class="pl-smi">validate.data.final</span><span class="pl-k">$</span><span class="pl-smi">classe</span>, <span class="pl-smi">rf.predict</span>)</pre></div>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1670    1    2    0    1
+##          B    5 1130    3    1    0
+##          C    0    7 1016    3    0
+##          D    0    0    4  957    3
+##          E    0    1    2    2 1077
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9941          
+##                  95% CI : (0.9917, 0.9959)
+##     No Information Rate : 0.2846          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9925          
+##  Mcnemar's Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9970   0.9921   0.9893   0.9938   0.9963
+## Specificity            0.9990   0.9981   0.9979   0.9986   0.9990
+## Pos Pred Value         0.9976   0.9921   0.9903   0.9927   0.9954
+## Neg Pred Value         0.9988   0.9981   0.9977   0.9988   0.9992
+## Prevalence             0.2846   0.1935   0.1745   0.1636   0.1837
+## Detection Rate         0.2838   0.1920   0.1726   0.1626   0.1830
+## Detection Prevalence   0.2845   0.1935   0.1743   0.1638   0.1839
+## Balanced Accuracy      0.9980   0.9951   0.9936   0.9962   0.9976
+</code></pre>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">accuracy</span> <span class="pl-k">&lt;-</span> postResample(<span class="pl-smi">rf.predict</span>, <span class="pl-smi">validate.data.final</span><span class="pl-k">$</span><span class="pl-smi">classe</span>)
+<span class="pl-smi">acc.out</span> <span class="pl-k">&lt;-</span> <span class="pl-smi">accuracy</span>[<span class="pl-c1">1</span>]
+
+<span class="pl-smi">overall.ose</span> <span class="pl-k">&lt;-</span> 
+        <span class="pl-c1">1</span> <span class="pl-k">-</span> as.numeric(confusionMatrix(<span class="pl-smi">validate.data.final</span><span class="pl-k">$</span><span class="pl-smi">classe</span>, <span class="pl-smi">rf.predict</span>)
+                       <span class="pl-k">$</span><span class="pl-smi">overall</span>[<span class="pl-c1">1</span>])</pre></div>
+
+<h3>
+<a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h3>
+
+<p>The accuracy of this model is <strong>0.9940527</strong> and the Overall Out-of-Sample 
+error is <strong>0.0059473</strong>.</p>
+
+<h1>
+<a id="run-the-model" class="anchor" href="#run-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run the model</h1>
+
+<p>The model is applied to the test data to produce the results.</p>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">results</span> <span class="pl-k">&lt;-</span> predict(<span class="pl-smi">rf.model</span>, 
+                   <span class="pl-smi">test.data.clean1</span>[, <span class="pl-k">-</span>length(names(<span class="pl-smi">test.data.clean1</span>))])
+<span class="pl-smi">results</span></pre></div>
+
+<pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
+## Levels: A B C D E
+</code></pre>
+
+<h1>
+<a id="appendix---decision-tree-visualization" class="anchor" href="#appendix---decision-tree-visualization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Appendix - Decision Tree Visualization</h1>
+
+<div class="highlight highlight-r"><pre><span class="pl-smi">treeModel</span> <span class="pl-k">&lt;-</span> rpart(<span class="pl-smi">classe</span> <span class="pl-k">~</span> ., <span class="pl-v">data</span><span class="pl-k">=</span><span class="pl-smi">train.data.final</span>, <span class="pl-v">method</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>class<span class="pl-pds">"</span></span>)
+fancyRpartPlot(<span class="pl-smi">treeModel</span>)</pre></div>
+
+<p><img src="machine_proj_1_files/figure-html/unnamed-chunk-8-1.png" alt=""> </p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/MGoodman10/Practical-Machine-Learning">Practical-machine-learning</a> is maintained by <a href="https://github.com/MGoodman10">MGoodman10</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
