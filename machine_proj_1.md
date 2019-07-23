@@ -1,9 +1,9 @@
 # Practical Machine Learning Project
-Michael Goodman  
-Tuesday, May 19, 2015  
+Razib 
+July 23, 2019  
 
 # Executive Summary
-#### GitHub Repo: <https://github.com/MGoodman10/Practical-Machine-Learning>
+#### GitHub Repo: <https://github.com/KRazib/datasciencecoursera>
 
 ###Background  
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible 
